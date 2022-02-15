@@ -1,5 +1,12 @@
 <?php
+define('FATURA_GELIR', 0);
+define('FATURA_GIDER', 1);
 
+define('KALEM_GELIR', 0);
+define('KALEM_GIDER', 1);
+
+define('ISLEM_ODEME', 0);
+define('ISLEM_TAHSILAT', 1);
 return [
 
     /*
