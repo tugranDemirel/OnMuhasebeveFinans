@@ -1,4 +1,5 @@
 <?php
+
 define('FATURA_GELIR', 0);
 define('FATURA_GIDER', 1);
 
@@ -7,6 +8,7 @@ define('KALEM_GIDER', 1);
 
 define('ISLEM_ODEME', 0);
 define('ISLEM_TAHSILAT', 1);
+
 return [
 
     /*
@@ -181,6 +183,10 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+//        yajra
+        Yajra\DataTables\DataTablesServiceProvider::class,
+//        Intervention
+        Intervention\Image\ImageServiceProvider::class,
 
     ],
 
@@ -233,6 +239,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+//        yajra
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+//        Intervention
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 
