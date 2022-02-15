@@ -150,8 +150,8 @@
                         </figure><a href="page-profile.html" class="text-muted side-user-link"><i class="feather feather-settings list-icon"></i></a>
                     </div>
                     <!-- /.d-inline-block -->
-                    <div class="lh-14 mr-t-5"><a href="page-profile.html" class="hide-menu mt-3 mb-0 side-user-heading fw-500">Scott Adams</a>
-                        <br><small class="hide-menu">Developer</small>
+                    <div class="lh-14 mr-t-5"><a href="page-profile.html" class="hide-menu mt-3 mb-0 side-user-heading fw-500">{{ \Illuminate\Support\Facades\Auth::user()->name }}</a>
+                        <br><small class="hide-menu">Admin</small>
                     </div>
                 </div>
                 <!-- /.col-sm-12 -->
