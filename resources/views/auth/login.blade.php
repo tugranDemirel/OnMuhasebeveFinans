@@ -1,73 +1,85 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/demo/favicon.png') }}">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Login2</title>
+        <!-- CSS -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600|Roboto:400" rel="stylesheet" type="text/css">
+        <link href="{{asset('assets/vendors/material-icons/material-icons.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/vendors/mono-social-icons/monosocialiconsfont.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/vendors/feather-icons/feather.css') }}" rel="stylesheet" type="text/css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.7.0/css/perfect-scrollbar.min.css" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
+        <!-- Head Libs -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    </head>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+    <body class="body-bg-full profile-page">
+        <div id="wrapper" class="wrapper">
+            <div class="row container-min-full-height">
+                <div class="col-lg-8 p-3 login-left">
+                    <div class="w-50">
+                        <h2 class="mb-4 text-center">Welcome back!</h2>
+                        <form method="POST" action="{{ route('login') }}" class="text-center">
+                            @csrf
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
+                            <div class="form-group">
+                                <label class="text-muted" for="example-email">Email</label>
+                                <input type="email" placeholder="johndoe@site.com" class="form-control form-control-line  @error('email') is-invalid @enderror" name="email"  value="{{ old('email') }}">
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
+                            <div class="form-group">
+                                <label class="text-muted" for="example-password">Şifre</label>
+                                <input type="password" placeholder="password" class="form-control form-control-line  @error('password') is-invalid @enderror" name="password" value="111111">
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                 @enderror
+                            </div> <!-- /.form-group -->
+                            <div class="form-group mr-b-20">
+                                <button class="btn btn-block btn-rounded btn-md btn-color-scheme text-uppercase fw-600 ripple" type="submit">Giriş Yap</button>
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                    <!-- /.w-75 -->
                 </div>
+                <div class="col-lg-4 login-right d-lg-flex d-none pos-fixed pos-right text-inverse container-min-full-height" style="background-image: url({{asset('assets/demo/login-page-bg.jpg')}})">
+                    <div class="login-content px-3 w-75 text-center">
+                        <h2 class="mb-4 text-center fw-300">New here?</h2>
+                        <p class="heading-font-family fw-300 letter-spacing-minus">Sign up and discover the many great features that our app provides</p><a class="btn btn-rounded btn-md btn-outline-inverse text-uppercase fw-600 ripple pd-lr-60 mr-t-200">Sign Up</a>
+                        <ul class="list-inline mt-4 heading-font-family text-uppercase fs-13 mr-t-20">
+                            <li class="list-inline-item"><a href="#">Home</a>
+                            </li>
+                            <li class="list-inline-item"><a href="#">About</a>
+                            </li>
+                            <li class="list-inline-item"><a href="#">Contact</a>
+                            </li>
+                            <li class="list-inline-item"><a href="#">Careers</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.login-content -->
+                </div>
+                <!-- /.login-right -->
             </div>
+            <!-- /.row -->
         </div>
-    </div>
-</div>
-@endsection
+        <!-- /.wrapper -->
+        <!-- Scripts -->
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="assets/js/material-design.js"></script>
+    </body>
+
+</html>
