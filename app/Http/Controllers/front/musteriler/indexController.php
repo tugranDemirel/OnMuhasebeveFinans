@@ -15,10 +15,12 @@ class indexController extends Controller
     {
         return view('front.musteriler.index');
     }
+
     public function create()
     {
         return view('front.musteriler.create');
     }
+
     public function store(Request $request)
     {
         $all = $request->except('_token');
@@ -67,8 +69,20 @@ class indexController extends Controller
         else
             return redirect('/');
     }
+
     public function delete($id)
     {
+        $c = Musteriler::where('id', $id)->count();
+        if ($c !=0)
+        {
+            $data =  Musteriler::where('id', $id)->get();
+            fileUpload::directoryDelete($data[0]['photo']);
+            fileUpload::directoryDelete($data[0]['photo']);
+            Musteriler::where('id', $id)->delete();
+            return redirect()->back();
+        }
+        else
+            return redirect('/');
     }
 
     public function data(Request $request)

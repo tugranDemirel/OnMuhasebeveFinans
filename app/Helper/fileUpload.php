@@ -74,4 +74,12 @@ class fileUpload{
         unset($explode[3]);
         return implode('/', $explode);
     }
+
+    static function directoryDelete($filePath)
+    {
+        if (self::folderFounder($filePath) != "")
+        {
+            File::deleteDirectory(public_path(self::folderFounder($filePath)));
+        }
+    }
 }
