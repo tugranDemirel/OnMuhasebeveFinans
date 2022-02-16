@@ -31,6 +31,7 @@ Route::group(['namespace' => 'front'], function (){
         Route::get('/duzenle/{id}', 'indexController@edit')->name('edit');
         Route::post('/duzenle/{id}', 'indexController@update')->name('update');
         Route::get('/sil/{id}', 'indexController@delete')->name('delete');
+        Route::post('data', 'indexController@data')->name('data');
     });
 
 });

@@ -1,14 +1,14 @@
 <?php
 namespace App\Helper;
 use File;
-use Intervention\Image\Image;
+use Image;
 class fileUpload{
 
     static function newUpload($name, $directory, $file, $type = 0)
     {
-        $dir = 'image/'.$directory.'/'.$name;
         if (!empty($file))
         {
+            $dir = 'image/'.$directory.'/'.$name;
             if (!File::exists($dir))
             {
                 File::makeDirectory($dir, 0755, true);
