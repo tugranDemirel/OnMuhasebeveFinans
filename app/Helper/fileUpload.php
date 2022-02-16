@@ -54,11 +54,24 @@ class fileUpload{
                 $path = public_path($dir.'/'.$filename);
                 $file->move($path, $filename);
             }
+            if (self::folderFounder($data[0][$field]) !="")
+            {
+                File::deleteDirectory(public_path(self::folderFounder($data[0][$field])));
+            }
             return $dir.'/'.$filename;
         }
         else
         {
             return $data[0][$field];
         }
+    }
+
+//    Resim dosyasi yolunu parcalama
+    static function folderFounder($filename)
+    {
+        $explode = explode('/', $filename);
+//        ucuncu kismi kaldir dedik
+        unset($explode[3]);
+        return implode('/', $explode);
     }
 }
