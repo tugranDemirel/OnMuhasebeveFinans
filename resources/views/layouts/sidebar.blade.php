@@ -15,8 +15,8 @@
         </li>
         <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-user"></i> <span class="hide-menu">Faturalar</span></a>
             <ul class="list-unstyled sub-menu">
-                <li><a href="../default/page-profile.html">Fatura Listesi</a></li>
-                <li><a href="../default/page-login.html">Yeni Gelir Faturası Ekle</a></li>
+                <li><a href=" {{ route('fatura.index') }} ">Fatura Listesi</a></li>
+                <li><a href=" {{ route('fatura.create', ['type'=>0]) }} ">Yeni Gelir Faturası Ekle</a></li>
                 <li><a href="../default/page-login.html">Yeni Gider Faturası Ekle</a></li>
             </ul>
         </li>
