@@ -140,7 +140,7 @@
                 '<td><select class="form-control kalem" name="islem['+i+'][kalemId]">'+
                 '<option value="0"> Kalem Seçiniz </option>';
             @foreach(\App\Kalem::getList(0) as $k => $v)
-                    newRow += '<option data-k="{{$v['kdv']}}" value="{{ $v['id'] }}"> {{$v['ad']}}</option>';
+                    newRow += '<option data-k="{{ $v['kdv']}} " value="{{ $v['id'] }}"> {{$v['ad']}}</option>';
             @endforeach
 
             newRow += '</select></td>' +
@@ -159,6 +159,54 @@
         $('body').on('change', '.kalem', function (){
            var kdv = $(this).find(':selected').data('k');
            $(this).closest('.islem_field').find('#kdv').val(kdv);
+        });
+
+    //    remove input row
+        $('body').on('click', '#removeButton', function (){
+           $(this).closest('.islem_field').remove();
+        });
+        // faturaData icindeki inputlarda bir degisiklik olursa...
+        $('body').on('change', '#faturaData input', function (){
+           var $this = $(this);
+           if($this.is('#tutar, #gun_adet, #toplam_tutar, #genel_tutar, #kdv'))
+           {
+               var adet = $this.closest('tr').find('#gun_adet').val();
+               var tutar = $this.closest('tr').find('#tutar').val();
+               var kdv = $this.closest('tr').find('#kdv').val();
+               var toplam_tutar;
+               var genel_tutar;
+               var kdv_tutar;
+
+               if (adet=="" && tutar=="")
+               {
+                   toplam_tutar = $this.closest('tr').fin('#toplam_tutar').val();
+                   if(toplam_tutar =="")
+                   {
+                       genel_tutar =  parseFloat($this.closest('tr').fin('#genel_toplam').val());
+                       kdv_tutar =  genel_tutar/(1 + kdv/100);
+                       toplam_tutar = genel_tutar - kdv_tutar;
+                   }
+                   else
+                   {
+                       toplam_tutar = parseFloat($this.closest('tr').find('#toplam_tutar').val());
+                       kdv_tutar = toplam_tutar*kdv/100;
+                       genel_tutar = kdv_tutar + toplam_tutar;
+                   }
+               }
+               else
+               {
+                   toplam_tutar = adet * tutar;
+                   kdv_tutar = toplam_tutar*kdv/100;
+                   genel_tutar = toplam_tutar+kdv_tutar;
+               }
+               kdv_tutar =  kdv_tutar.toFixed(2);
+               toplam_tutar =  toplam_tutar.toFixed(2);
+               genel_tutar =  genel_tutar.toFixed(2);
+
+               $this.closest('tr').find('#toplam_tutar').val(toplam_tutar);
+               $this.closest('tr').find('#kdv_toplam').val(kdv_tutar);
+               $this.closest('tr').find('#genel_toplam').val(genel_tutar);
+           }
         });
     </script>
 @endsection
