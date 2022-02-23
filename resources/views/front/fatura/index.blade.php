@@ -72,8 +72,6 @@
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
     <script>
         $(document).ready(function() {
-
-
             let table =  $('#example').DataTable( {
                 lengthMenu: [[25, 100, -1], [25, 100, "All"]],
                 /*
@@ -87,7 +85,7 @@
                 ajax: {
                     type:'POST',
                     headers: {'X-CSRF-TOKEN': '{{csrf_token()}}'},
-                    url: '{{route('fatura.data')}}',
+                    url: '{{ route('fatura.data') }}',
                     data: function (d) {
                         d.startDate = $('#datepicker_from').val();
                         d.endDate = $('#datepicker_to').val();

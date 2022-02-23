@@ -23,6 +23,7 @@ class CreateFaturaIslemsTable extends Migration
             $table->double('araToplam');
             $table->double('kdvToplam');
             $table->double('genelToplam');
+            $table->text('text');
             $table->timestamps();
         });
     }

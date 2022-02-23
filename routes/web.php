@@ -48,7 +48,6 @@ Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
 
 //    prefix adres satirinda gozukecek olan url i belirtir. www.tugrandemirel.com/musteriler gibi
     Route::group(['namespace'=>'fatura', 'as'=>'fatura.', 'prefix'=>'fatura'], function (){
-
         Route::get('/', 'indexController@index')->name('index');
         Route::get('/olustur/{type}', 'indexController@create')->name('create');
         Route::post('/olustur/{type}', 'indexController@store')->name('store'); // 0 gelir faturası 1 gelir faturası
