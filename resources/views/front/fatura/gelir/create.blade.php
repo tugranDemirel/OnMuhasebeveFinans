@@ -166,6 +166,7 @@
     //    remove input row
         $('body').on('click', '#removeButton', function (){
            $(this).closest('.islem_field').remove();
+           calc();
         });
 
         // faturaData icindeki inputlarda bir degisiklik olursa...
@@ -210,6 +211,29 @@
                $this.closest('tr').find('#kdv_toplam').val(kdv_tutar);
                $this.closest('tr').find('#genel_toplam').val(genel_tutar);
            }
+           calc();
         });
+
+        function calc() {
+            var kdv_toplam = 0;
+            var ara_toplam = 0;
+            var genel_toplam = 0;
+            // id i kdv_toplam olan butun inputların degerlerini topla
+            $('[id=kdv_toplam]').each(function (){
+               kdv_toplam = parseFloat(kdv_toplam) + parseFloat($(this).val());
+            });
+            // id i ara_toplam olan butun inputların degerlerini topla
+            $('[id=toplam_tutar]').each(function (){
+                ara_toplam = parseFloat(ara_toplam) + parseFloat($(this).val());
+            });
+            // id i genel_toplam olan butun inputların degerlerini topla
+            $('[id=genel_toplam]').each(function (){
+                genel_toplam = parseFloat(genel_toplam) + parseFloat($(this).val());
+            });
+
+            $('.kdv_toplam').html(kdv_toplam);
+            $('.ara_toplam').html(ara_toplam);
+            $('.genel_toplam').html(genel_toplam);
+        }
     </script>
 @endsection
