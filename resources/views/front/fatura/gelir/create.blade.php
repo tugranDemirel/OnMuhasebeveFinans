@@ -156,6 +156,8 @@
             $('#faturaData').append(newRow);
             i++;
         });
+
+        // KDV getirme
         $('body').on('change', '.kalem', function (){
            var kdv = $(this).find(':selected').data('k');
            $(this).closest('.islem_field').find('#kdv').val(kdv);
@@ -165,6 +167,7 @@
         $('body').on('click', '#removeButton', function (){
            $(this).closest('.islem_field').remove();
         });
+
         // faturaData icindeki inputlarda bir degisiklik olursa...
         $('body').on('change', '#faturaData input', function (){
            var $this = $(this);
@@ -177,12 +180,12 @@
                var genel_tutar;
                var kdv_tutar;
 
-               if (adet=="" && tutar=="")
+               if (adet =="" && tutar =="")
                {
-                   toplam_tutar = $this.closest('tr').fin('#toplam_tutar').val();
-                   if(toplam_tutar =="")
+                   toplam_tutar = $this.closest('tr').find('#toplam_tutar').val();
+                   if(toplam_tutar == "")
                    {
-                       genel_tutar =  parseFloat($this.closest('tr').fin('#genel_toplam').val());
+                       genel_tutar =  parseFloat($this.closest('tr').find('#genel_toplam').val());
                        kdv_tutar =  genel_tutar/(1 + kdv/100);
                        toplam_tutar = genel_tutar - kdv_tutar;
                    }
