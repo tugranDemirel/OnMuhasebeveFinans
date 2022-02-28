@@ -22,8 +22,8 @@
         </li>
         <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-user"></i> <span class="hide-menu">Banka</span></a>
             <ul class="list-unstyled sub-menu">
-                <li><a href="../default/page-profile.html">Banka Listesi</a></li>
-                <li><a href="../default/page-login.html">Yeni Banka Ekle</a></li>
+                <li><a href=" {{ route('banka.index') }} ">Banka Listesi</a></li>
+                <li><a href=" {{ route('banka.create') }} ">Yeni Banka Ekle</a></li>
             </ul>
         </li>
         <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-user"></i> <span class="hide-menu">İşlemler</span></a>

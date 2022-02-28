@@ -57,4 +57,15 @@ Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
         Route::post('data', 'indexController@data')->name('data');
     });
 
+//    prefix adres satirinda gozukecek olan url i belirtir. www.tugrandemirel.com/musteriler gibi
+    Route::group(['namespace'=>'banka', 'as'=>'banka.', 'prefix'=>'banka'], function (){
+
+        Route::get('/', 'indexController@index')->name('index');
+        Route::get('/olustur', 'indexController@create')->name('create');
+        Route::post('/olustur', 'indexController@store')->name('store');
+        Route::get('/duzenle/{id}', 'indexController@edit')->name('edit');
+        Route::post('/duzenle/{id}', 'indexController@update')->name('update');
+        Route::get('/sil/{id}', 'indexController@delete')->name('delete');
+        Route::post('data', 'indexController@data')->name('data');
+    });
 });
