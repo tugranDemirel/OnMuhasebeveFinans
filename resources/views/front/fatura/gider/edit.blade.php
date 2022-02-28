@@ -20,7 +20,7 @@
                 </li>
                 <li class="breadcrumb-item active">Fatura</li>
             </ol>
-            <div class="d-none d-md-inline-flex justify-center align-items-center"><a href="javascript: void(0);" class="btn btn-color-scheme btn-sm fs-11 fw-400 mr-l-40 pd-lr-10 mr-l-0-rtl mr-r-40-rtl hidden-xs hidden-sm ripple" target="_blank">Gelir Faturası Düzenle</a>
+            <div class="d-none d-md-inline-flex justify-center align-items-center"><a href="javascript: void(0);" class="btn btn-color-scheme btn-sm fs-11 fw-400 mr-l-40 pd-lr-10 mr-l-0-rtl mr-r-40-rtl hidden-xs hidden-sm ripple" target="_blank">Gider Faturası Düzenle</a>
             </div>
         </div>
         <!-- /.page-title-right -->
@@ -88,7 +88,7 @@
                                                     <td>
                                                         <select class="form-control kalem" name="islem[{{ $k }}][kalemId]">
                                                             <option value="0"> Kalem Seçiniz </option>
-                                                            @foreach(\App\Kalem::getList(0) as $key => $value)
+                                                            @foreach(\App\Kalem::getList(1) as $key => $value)
                                                                 <option @if($value['id'] == $v['kalemId']) selected @endif data-k="{{ $v['kdv']}} " value="{{ $value['id'] }}"> {{$value['ad']}}</option>
                                                             @endforeach
                                                         </select>
@@ -164,7 +164,7 @@
                 '<tr class="islem_field">' +
                 '<td><select class="form-control kalem" name="islem['+i+'][kalemId]">'+
                 '<option value="0"> Kalem Seçiniz </option>';
-            @foreach(\App\Kalem::getList(0) as $key => $value)
+            @foreach(\App\Kalem::getList(1) as $key => $value)
                     newRow += '<option data-k="{{ $value['kdv']}} " value="{{ $value['id'] }}"> {{$value['ad']}}</option>';
             @endforeach
 

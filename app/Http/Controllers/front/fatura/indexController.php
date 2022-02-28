@@ -5,6 +5,7 @@ namespace App\Http\Controllers\front\fatura;
 use App\Fatura;
 use App\FaturaIslem;
 use App\Http\Controllers\Controller;
+use App\Musteriler;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -20,43 +21,56 @@ class indexController extends Controller
     {
         if($type == 0)
             return view('front.fatura.gelir.create');
-        else
+        elseif($type == 1)
             return view('front.fatura.gider.create');
+        else
+            return abort(404);
     }
 
     public function store(Request $request)
     {
         $type = $request->route('type');
         $all = $request->except('_token');
-
-         $islem = $all['islem'];
-         unset($all['islem']);
-        $all['faturaTipi'] = $type;
-
-        $create = Fatura::create($all);
-        if ($create)
+        if (isset($all['islem']))
         {
-            if (count($islem)!=0)
+            $islem = $all['islem'];
+
+            unset($all['islem']);
+            $all['faturaTipi'] = $type;
+            $c = Fatura::where('faturaNo', $all['faturaNo'])->count();
+            if ($c == 0)
             {
-                foreach ($islem as $key => $value) {
-                    $islemArray = [
-                        'faturaId'=> $create->id,
-                        'kalemId' => $value['kalemId'],
-                        'miktar' => $value['gun_adet'],
-                        'fiyat' => $value['tutar'],
-                        'kdv' => $value['kdv'],
-                        'araToplam' => $value['toplam_tutar'],
-                        'kdvToplam' => $value['kdv_toplam'],
-                        'genelToplam' => $value['genel_toplam'],
-                        'text' => $value['text'],
-                    ];
-                    FaturaIslem::create($islemArray);
+                $create = Fatura::create($all);
+                if ($create)
+                {
+                    if (count($islem)!=0)
+                    {
+                        foreach ($islem as $key => $value) {
+                            $islemArray = [
+                                'faturaId'=> $create->id,
+                                'kalemId' => $value['kalemId'],
+                                'miktar' => $value['gun_adet'],
+                                'fiyat' => $value['tutar'],
+                                'kdv' => $value['kdv'],
+                                'araToplam' => $value['toplam_tutar'],
+                                'kdvToplam' => $value['kdv_toplam'],
+                                'genelToplam' => $value['genel_toplam'],
+                                'text' => $value['text'],
+                            ];
+                            FaturaIslem::create($islemArray);
+                        }
+                    }
+                    return redirect()->back()->with('status', 'Fatura Eklendi');
                 }
+                else
+                    return redirect()->back()->with('status', 'Fatura eklenemedi');
             }
-            return redirect()->back()->with('status', 'Fatura Eklendi');
+            else
+                return redirect()->back()->with('statusDanger', 'Fatura Numarasını Kontrol Ediniz');
         }
         else
-            return redirect()->back()->with('status', 'Fatura eklenemedi');
+            return redirect()->back()->with('statusDanger', 'Fatura ayrıntılarını ekleyiniz');
+
     }
 
     public function edit($id)
@@ -82,34 +96,39 @@ class indexController extends Controller
     public function update(Request $request)
     {
         $id = $request->route('id');
-
         $c = Fatura::where('id', $id)->count();
         if ($c != 0)
         {
             $all = $request->except('_token');
-            $islem = $all['islem'];
-            unset($all['islem']);
-
-            $upate = Fatura::where('id', $id)->update($all);
-            if (count($islem)!=0)
+            if (isset( $all['islem']))
             {
-                foreach ($islem as $key => $value) {
+                $islem = $all['islem'];
+                unset($all['islem']);
+
+                if (count($islem)!=0)
+                {
                     FaturaIslem::where('faturaId', $id)->delete();
-                    $islemArray = [
-                        'faturaId' => $id,
-                        'kalemId' => $value['kalemId'],
-                        'miktar' => $value['gun_adet'],
-                        'fiyat' => $value['tutar'],
-                        'kdv' => $value['kdv'],
-                        'araToplam' => $value['toplam_tutar'],
-                        'kdvToplam' => $value['kdv_toplam'],
-                        'genelToplam' => $value['genel_toplam'],
-                        'text' => $value['text'],
-                    ];
-                    FaturaIslem::create($islemArray);
+                    foreach ($islem as $key => $value) {
+                        $islemArray = [
+                            'faturaId' => $id,
+                            'kalemId' => $value['kalemId'],
+                            'miktar' => $value['gun_adet'],
+                            'fiyat' => $value['tutar'],
+                            'kdv' => $value['kdv'],
+                            'araToplam' => $value['toplam_tutar'],
+                            'kdvToplam' => $value['kdv_toplam'],
+                            'genelToplam' => $value['genel_toplam'],
+                            'text' => $value['text'],
+                        ];
+                        FaturaIslem::create($islemArray);
+                    }
+
+                    $upate = Fatura::where('id', $id)->update($all);
+                    return redirect()->back()->with('status', 'Fatura Düzenlendi');
                 }
-                return redirect()->back()->with('status', 'Fatura Düzenlendi');
             }
+            else
+                return redirect()->back()->with('statusDanger', 'Fatura ayrıntılarını ekleyiniz');
         }
         else
             return redirect('/');

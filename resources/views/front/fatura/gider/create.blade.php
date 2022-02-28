@@ -20,7 +20,7 @@
                 </li>
                 <li class="breadcrumb-item active">Fatura</li>
             </ol>
-            <div class="d-none d-md-inline-flex justify-center align-items-center"><a href="javascript: void(0);" class="btn btn-color-scheme btn-sm fs-11 fw-400 mr-l-40 pd-lr-10 mr-l-0-rtl mr-r-40-rtl hidden-xs hidden-sm ripple" target="_blank">Gelir Faturası Düzenle</a>
+            <div class="d-none d-md-inline-flex justify-center align-items-center"><a href="javascript: void(0);" class="btn btn-color-scheme btn-sm fs-11 fw-400 mr-l-40 pd-lr-10 mr-l-0-rtl mr-r-40-rtl hidden-xs hidden-sm ripple" target="_blank">Yeni Gider Faturası Ekle</a>
             </div>
         </div>
         <!-- /.page-title-right -->
@@ -33,6 +33,14 @@
             </div>
         </div>
     @endif
+
+    @if(session('statusDanger'))
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="alert alert-danger">{{ session('statusDanger') }}</div>
+            </div>
+        </div>
+    @endif
     <!-- /.page-title -->
     <!-- =================================== -->
     <!-- Different data widgets ============ -->
@@ -42,26 +50,26 @@
             <div class="col-md-12 widget-holder">
                 <div class="widget-bg">
                     <div class="widget-body clearfix">
-                        <form action="{{route('fatura.update', ['id' => $data[0]['id']])}}" method="POST">
+                        <form action="{{route('fatura.store', ['type' => 1])}}" method="POST">
                             @csrf
 
                             <div class="form-group row firma-area">
                                 <div class="col-md-4">
                                     <label class=" col-form-label" for="l0">Fatura No</label>
-                                    <input class="form-control"  required name="faturaNo"  type="text" value="{{ $data[0]['faturaNo'] }}">
+                                    <input class="form-control"  required name="faturaNo"  type="text">
                                 </div>
                                 <div class="col-md-4">
                                     <label class=" col-form-label" for="l0">Müşteri Seçiniz</label>
                                     <select name="musteriId" class="m-b-10 form-control select2-hidden-accessible" data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
                                         <option value="">Müşteri Seçiniz</option>
                                         @foreach(\App\Musteriler::all() as $k => $v)
-                                            <option @if($v['id'] == $data[0]['musteriId']) selected @endif value="{{$v['id']}}"> {{ \App\Musteriler::getPublicName($v['id']) }}</option>
+                                            <option value="{{$v['id']}}"> {{ \App\Musteriler::getPublicName($v['id']) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label class=" col-form-label" for="l0">Fatura Tarih</label>
-                                    <input class="form-control"  required name="faturaTarih"  value="{{ $data[0]['faturaTarih'] }}" type="date">
+                                    <input class="form-control"  required name="faturaTarih"  value="{{ date('Y-m-d') }}" type="date">
                                 </div>
                             </div>
 
@@ -82,28 +90,6 @@
                                                 <th>Kaldır</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            @foreach($dataIslem as $k => $v)
-                                                <tr class="islem_field">
-                                                    <td>
-                                                        <select class="form-control kalem" name="islem[{{ $k }}][kalemId]">
-                                                            <option value="0"> Kalem Seçiniz </option>
-                                                            @foreach(\App\Kalem::getList(0) as $key => $value)
-                                                                <option @if($value['id'] == $v['kalemId']) selected @endif data-k="{{ $v['kdv']}} " value="{{ $value['id'] }}"> {{$value['ad']}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
-                                                    <td><input type="text" class="form-control" id="gun_adet" name="islem[{{ $k }}][gun_adet]" value="{{ $v['miktar'] }}"></td>
-                                                    <td><input type="text" class="form-control" id="tutar" name="islem[{{ $k }}][tutar]" value="{{ $v['fiyat'] }}"></td>
-                                                    <td><input type="text" class="form-control" id="toplam_tutar" name="islem[{{ $k }}][toplam_tutar]" value="{{ $v['araToplam'] }}"></td>
-                                                    <td><input type="text" class="form-control" id="kdv" name="islem[{{ $k }}][kdv]" value="{{ $v['kdv'] }}"></td>
-                                                    <td><input type="text" class="form-control" id="kdv_toplam" name="islem[{{ $k }}][kdv_toplam]" value="{{ $v['kdvToplam'] }}"></td>
-                                                    <td><input type="text" class="form-control" id="genel_toplam" name="islem[{{ $k }}][genel_toplam]" value="{{ $v['genelToplam'] }}"></td>
-                                                    <td><input type="text" class="form-control" id="text" name="islem[{{ $k }}][text]" value="{{ $v['text'] }}"></td>
-                                                    <td><button id="removeButton" type="button" class="btn btn-danger"> X </button> </td>
-                                                    </tr>
-                                            @endforeach
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -155,20 +141,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
     <script>
-        $(document).ready(function (){
-            calc();
-        });
         var i = $('.islem_field').length;
         $('#addRowButton').click(function (){
             var newRow =
                 '<tr class="islem_field">' +
                 '<td><select class="form-control kalem" name="islem['+i+'][kalemId]">'+
                 '<option value="0"> Kalem Seçiniz </option>';
-            @foreach(\App\Kalem::getList(0) as $key => $value)
-                    newRow += '<option data-k="{{ $value['kdv']}} " value="{{ $value['id'] }}"> {{$value['ad']}}</option>';
+            @foreach(\App\Kalem::getList(1) as $k => $v)
+                newRow += '<option data-k="{{ $v['kdv']}} " value="{{ $v['id'] }}"> {{$v['ad']}}</option>';
             @endforeach
 
-            newRow += '</select></td>' +
+                newRow += '</select></td>' +
                 '<td><input type="text" class="form-control" id="gun_adet" name="islem['+i+'][gun_adet]"></td>'+
                 '<td><input type="text" class="form-control" id="tutar" name="islem['+i+'][tutar]"></td>'+
                 '<td><input type="text" class="form-control" id="toplam_tutar" name="islem['+i+'][toplam_tutar]"></td>'+
@@ -184,59 +167,59 @@
 
         // KDV getirme
         $('body').on('change', '.kalem', function (){
-           var kdv = $(this).find(':selected').data('k');
-           $(this).closest('.islem_field').find('#kdv').val(kdv);
+            var kdv = $(this).find(':selected').data('k');
+            $(this).closest('.islem_field').find('#kdv').val(kdv);
         });
 
-    //    remove input row
+        //    remove input row
         $('body').on('click', '#removeButton', function (){
-           $(this).closest('.islem_field').remove();
-           calc();
+            $(this).closest('.islem_field').remove();
+            calc();
         });
 
         // faturaData icindeki inputlarda bir degisiklik olursa...
         $('body').on('change', '#faturaData input', function (){
-           var $this = $(this);
-           if($this.is('#tutar, #gun_adet, #toplam_tutar, #genel_tutar, #kdv'))
-           {
-               var adet = $this.closest('tr').find('#gun_adet').val();
-               var tutar = $this.closest('tr').find('#tutar').val();
-               var kdv = $this.closest('tr').find('#kdv').val();
-               var toplam_tutar;
-               var genel_tutar;
-               var kdv_tutar;
+            var $this = $(this);
+            if($this.is('#tutar, #gun_adet, #toplam_tutar, #genel_tutar, #kdv'))
+            {
+                var adet = $this.closest('tr').find('#gun_adet').val();
+                var tutar = $this.closest('tr').find('#tutar').val();
+                var kdv = $this.closest('tr').find('#kdv').val();
+                var toplam_tutar;
+                var genel_tutar;
+                var kdv_tutar;
 
-               if (adet =="" && tutar =="")
-               {
-                   toplam_tutar = $this.closest('tr').find('#toplam_tutar').val();
-                   if(toplam_tutar == "")
-                   {
-                       genel_tutar =  parseFloat($this.closest('tr').find('#genel_toplam').val());
-                       kdv_tutar =  genel_tutar/(1 + kdv/100);
-                       toplam_tutar = genel_tutar - kdv_tutar;
-                   }
-                   else
-                   {
-                       toplam_tutar = parseFloat($this.closest('tr').find('#toplam_tutar').val());
-                       kdv_tutar = toplam_tutar*kdv/100;
-                       genel_tutar = kdv_tutar + toplam_tutar;
-                   }
-               }
-               else
-               {
-                   toplam_tutar = adet * tutar;
-                   kdv_tutar = toplam_tutar*kdv/100;
-                   genel_tutar = toplam_tutar+kdv_tutar;
-               }
-               kdv_tutar =  kdv_tutar.toFixed(2);
-               toplam_tutar =  toplam_tutar.toFixed(2);
-               genel_tutar =  genel_tutar.toFixed(2);
+                if (adet =="" && tutar =="")
+                {
+                    toplam_tutar = $this.closest('tr').find('#toplam_tutar').val();
+                    if(toplam_tutar == "")
+                    {
+                        genel_tutar =  parseFloat($this.closest('tr').find('#genel_toplam').val());
+                        kdv_tutar =  genel_tutar/(1 + kdv/100);
+                        toplam_tutar = genel_tutar - kdv_tutar;
+                    }
+                    else
+                    {
+                        toplam_tutar = parseFloat($this.closest('tr').find('#toplam_tutar').val());
+                        kdv_tutar = toplam_tutar*kdv/100;
+                        genel_tutar = kdv_tutar + toplam_tutar;
+                    }
+                }
+                else
+                {
+                    toplam_tutar = adet * tutar;
+                    kdv_tutar = toplam_tutar*kdv/100;
+                    genel_tutar = toplam_tutar+kdv_tutar;
+                }
+                kdv_tutar =  kdv_tutar.toFixed(2);
+                toplam_tutar =  toplam_tutar.toFixed(2);
+                genel_tutar =  genel_tutar.toFixed(2);
 
-               $this.closest('tr').find('#toplam_tutar').val(toplam_tutar);
-               $this.closest('tr').find('#kdv_toplam').val(kdv_tutar);
-               $this.closest('tr').find('#genel_toplam').val(genel_tutar);
-           }
-           calc();
+                $this.closest('tr').find('#toplam_tutar').val(toplam_tutar);
+                $this.closest('tr').find('#kdv_toplam').val(kdv_tutar);
+                $this.closest('tr').find('#genel_toplam').val(genel_tutar);
+            }
+            calc();
         });
 
         function calc() {
@@ -245,7 +228,7 @@
             var genel_toplam = 0;
             // id i kdv_toplam olan butun inputların degerlerini topla
             $('[id=kdv_toplam]').each(function (){
-               kdv_toplam = parseFloat(kdv_toplam) + parseFloat($(this).val());
+                kdv_toplam = parseFloat(kdv_toplam) + parseFloat($(this).val());
             });
             // id i ara_toplam olan butun inputların degerlerini topla
             $('[id=toplam_tutar]').each(function (){
