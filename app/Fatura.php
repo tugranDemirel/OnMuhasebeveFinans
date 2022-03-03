@@ -12,4 +12,8 @@ class Fatura extends Model
     {
         return Fatura::where('faturaTipi', $type)->get();
     }
+    static function getTotal($id)
+    {
+        return FaturaIslem::where('faturaId', $id)->sum('genelToplam');
+    }
 }

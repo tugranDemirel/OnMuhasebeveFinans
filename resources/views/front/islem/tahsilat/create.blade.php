@@ -20,7 +20,7 @@
                 </li>
                 <li class="breadcrumb-item active">İşlem</li>
             </ol>
-            <div class="d-none d-md-inline-flex justify-center align-items-center"><a href="javascript: void(0);" class="btn btn-color-scheme btn-sm fs-11 fw-400 mr-l-40 pd-lr-10 mr-l-0-rtl mr-r-40-rtl hidden-xs hidden-sm ripple" target="_blank">Yeni Ödeme Ekle</a>
+            <div class="d-none d-md-inline-flex justify-center align-items-center"><a href="javascript: void(0);" class="btn btn-color-scheme btn-sm fs-11 fw-400 mr-l-40 pd-lr-10 mr-l-0-rtl mr-r-40-rtl hidden-xs hidden-sm ripple" target="_blank">Yeni Tahsilat Ekle</a>
             </div>
         </div>
         <!-- /.page-title-right -->
@@ -49,7 +49,7 @@
             <div class="col-md-12 widget-holder">
                 <div class="widget-bg">
                     <div class="widget-body clearfix">
-                        <form action="{{route('islem.store', ['type' => 0])}}" method="POST">
+                        <form action="{{route('islem.store', ['type' => 1])}}" method="POST">
                             @csrf
                             <div class="form-group row">
                                 <div class="col-md-4">
@@ -65,7 +65,7 @@
                                     <label class=" col-form-label" for="l0">Fatura Seçiniz</label>
                                     <select name="faturaId" class="m-b-10 form-control " data-placeholder="Fatura Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
                                         <option value="">Fatura Seçiniz</option>
-                                        @foreach(\App\Fatura::getList(FATURA_GIDER) as $k => $v)
+                                        @foreach(\App\Fatura::getList(FATURA_GELIR) as $k => $v)
                                             <option value="{{$v['id']}}"> {{ $v['faturaNo'] }} / {{ \App\Musteriler::getPublicName($v['musteriId']) }} / {{ \App\Fatura::getTotal($v['id']) }}</option>
                                         @endforeach
                                     </select>
