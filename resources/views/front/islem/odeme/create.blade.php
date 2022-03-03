@@ -51,10 +51,10 @@
                     <div class="widget-body clearfix">
                         <form action="{{route('islem.store', ['type' => 0])}}" method="POST">
                             @csrf
-                            <div class="form-group row firma-area">
+                            <div class="form-group row">
                                 <div class="col-md-4">
                                     <label class=" col-form-label" for="l0">Müşteri Seçiniz</label>
-                                    <select name="musteriId" class="m-b-10 form-control select2-hidden-accessible" data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
+                                    <select name="musteriId" class="m-b-10 form-control " data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
                                         <option value="">Müşteri Seçiniz</option>
                                         @foreach(\App\Musteriler::all() as $k => $v)
                                             <option value="{{$v['id']}}"> {{ \App\Musteriler::getPublicName($v['id']) }}</option>
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class=" col-form-label" for="l0">Fatura Seçiniz</label>
-                                    <select name="faturaId" class="m-b-10 form-control select2-hidden-accessible" data-placeholder="Fatura Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
+                                    <select name="faturaId" class="m-b-10 form-control " data-placeholder="Fatura Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
                                         <option value="">Fatura Seçiniz</option>
                                         @foreach(\App\Fatura::getList(FATURA_GIDER) as $k => $v)
                                             <option value="{{$v['id']}}"> {{ $v['faturaNo'] }}</option>
@@ -75,6 +75,41 @@
                                     <input class="form-control"  required name="tarih"  value="{{ date('Y-m-d') }}" type="date">
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class=" col-form-label" for="l0">Gelen Hesap</label>
+                                        <select name="gelenHesap" class="m-b-10 form-control " data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
+                                            <option value="0">Nakit</option>
+                                            @foreach(\App\Banka::all() as $k => $v)
+                                                <option value="{{$v['id']}}"> {{ $v['ad'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class=" col-form-label" for="l0">Gönderilen Hesap</label>
+                                        <select name="gonderenHesap" class="m-b-10 form-control " data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
+                                            <option value="0">Nakit</option>
+                                            <option value="1">Banka</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="col-form-label">Fiyat</label>
+                                        <input type="text" class="form-control mr-b-10" name="fiyat">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="" class="col-form-label">Açıklama</label>
+                                        <textarea name="aciklama" id="" cols="30" rows="10" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="form-actions">
                                 <div class="form-group row">
                                     <div class="col-md-12 ml-md-auto btn-list">
@@ -92,4 +127,8 @@
         </div>
         <!-- /.row -->
     </div>
+@endsection
+@section('js')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 @endsection
