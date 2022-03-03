@@ -78,8 +78,8 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class=" col-form-label" for="l0">Gelen Hesap</label>
-                                        <select name="gelenHesap" class="m-b-10 form-control " data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
+                                        <label class=" col-form-label" for="l0">Hesap</label>
+                                        <select name="hesap" class="m-b-10 form-control " data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
                                             <option value="0">Nakit</option>
                                             @foreach(\App\Banka::all() as $k => $v)
                                                 <option value="{{$v['id']}}"> {{ $v['ad'] }}</option>
@@ -89,8 +89,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class=" col-form-label" for="l0">Gönderilen Hesap</label>
-                                        <select name="gonderenHesap" class="m-b-10 form-control " data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
+                                        <label class=" col-form-label" for="l0">Ödeme Şekli</label>
+                                        <select name="odemeSekli" class="m-b-10 form-control " data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
                                             <option value="0">Nakit</option>
                                             <option value="1">Banka</option>
                                         </select>

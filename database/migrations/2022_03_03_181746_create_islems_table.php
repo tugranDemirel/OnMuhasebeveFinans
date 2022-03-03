@@ -20,8 +20,8 @@ class CreateIslemsTable extends Migration
             $table->integer('faturaId')->default(0);
             $table->double('fiyat');
             $table->date('tarih');
-            $table->integer('gelenHesap');
-            $table->integer('gonderenHesap');
+            $table->integer('hesap');
+            $table->integer('odemeSekli');
             $table->text('aciklama');
             $table->timestamps();
         });
