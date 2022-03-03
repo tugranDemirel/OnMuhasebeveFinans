@@ -28,8 +28,8 @@
         </li>
         <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-user"></i> <span class="hide-menu">İşlemler</span></a>
             <ul class="list-unstyled sub-menu">
-                <li><a href="../default/page-profile.html">Ödeme Yap</a></li>
-                <li><a href="../default/page-login.html">Tahsilat Al</a></li>
+                <li><a href="{{ route('islem.create', ['type'=>0]) }}">Ödeme Yap</a></li>
+                <li><a href="{{ route('fatura.create', ['type'=>1]) }}">Tahsilat Al</a></li>
             </ul>
         </li>
     </ul>
