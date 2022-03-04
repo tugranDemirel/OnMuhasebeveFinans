@@ -16,4 +16,15 @@ class Fatura extends Model
     {
         return FaturaIslem::where('faturaId', $id)->sum('genelToplam');
     }
+    static function getNo($id)
+    {
+        $c = Fatura::where('faturaNo', $id)->count();
+        if ($c != 0)
+        {
+            $w = Fatura::where('faturaNo', $id)->get();
+            return $w[0]['faturaNo'];
+        }
+        else
+            return  'Fatura No Bulunamadı';
+    }
 }
