@@ -27,4 +27,12 @@ class Fatura extends Model
         else
             return  'Fatura No Bulunamadı';
     }
+    static function getGelirCount()
+    {
+        return Fatura::where('faturaTipi', FATURA_GELIR)->count();
+    }
+    static function getGiderCount()
+    {
+        return Fatura::where('faturaTipi', FATURA_GIDER)->count();
+    }
 }
