@@ -43,6 +43,6 @@ class User extends Authenticatable
         if (Auth::user()->photo != "")
             return Auth::user()->photo;
         else
-            return asset('image/noPhoto/index.jpg');
+            return 'image/noPhoto/index.jpg';
     }
 }
