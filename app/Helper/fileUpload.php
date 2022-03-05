@@ -33,6 +33,15 @@ class fileUpload{
             return "";
     }
 
+    /**
+     * @param $name = file name
+     * @param $directory = file directory
+     * @param $file = file(inputtan gelen)
+     * @param int $type
+     * @param $data = kayıt yapan kişisinin bilgileri
+     * @param $field = hangi yerde olacak
+     * @return dosya konumu
+     */
     static function changeUpload($name, $directory, $file, $type = 0, $data, $field)
     {
         if (!empty($file)) {

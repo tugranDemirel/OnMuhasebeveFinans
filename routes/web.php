@@ -19,9 +19,16 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
+
     Route::group(['namespace'=>'home', 'as'=>'home.'], function (){
         Route::get('/', 'indexController@index')->name('index');
     });
+
+    Route::group(['namespace'=>'profil', 'as'=>'profil.', 'prefix' => 'profil'], function (){
+       Route::get('/', 'indexController@index')->name('index');
+       Route::post('/update', 'indexController@update')->name('update');
+    });
+
 //    prefix adres satirinda gozukecek olan url i belirtir. www.tugrandemirel.com/musteriler gibi
     Route::group(['namespace'=>'musteriler', 'as'=>'musteriler.', 'prefix'=>'musteriler'], function (){
 

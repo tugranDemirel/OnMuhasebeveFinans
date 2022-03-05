@@ -32,7 +32,7 @@
     <nav class="navbar">
         <!-- Logo Area -->
         <div class="navbar-header">
-            <a href="index.html" class="navbar-brand">
+            <a href="/" class="navbar-brand">
                 <img class="logo-expand" alt="" src="{{asset('assets/demo/logo-expand.png')}}">
                 <img class="logo-collapse" alt="" src="{{asset('assets/demo/logo-collapse.png')}}">
                 <!-- <p>BonVue</p> -->
@@ -45,42 +45,44 @@
             </li>
         </ul>
         <!-- /.navbar-left -->
-        <!-- Search Form -->
-        <form class="navbar-search d-none d-sm-block" role="search"><i class="feather feather-search list-icon"></i>
-            <input type="search" class="search-query" placeholder="Search anything..."> <a href="javascript:void(0);" class="remove-focus"><i class="feather feather-x"></i></a>
-        </form>
-        <!-- /.navbar-search -->
         <div class="spacer"></div>
         <!-- Button: Create New -->
-        <div class="btn-list dropdown d-none d-md-flex mr-4 mr-0-rtl ml-4-rtl"><a href="javascript:void(0);" class="btn btn-primary dropdown-toggle ripple" data-toggle="dropdown"><i class="feather feather-plus list-icon"></i> Create New</a>
-            <div class="dropdown-menu dropdown-left animated flipInY"><span class="dropdown-header">Create new ...</span>  <a class="dropdown-item" href="#">Projects</a>  <a class="dropdown-item" href="#">User Profile</a>  <a class="dropdown-item" href="#"><span class="d-flex align-items-end"><span class="flex-1">To-do Item</span> <span class="badge badge-pill bg-primary-contrast">7</span> </span></a>
-                <a
-                    class="dropdown-item" href="#"><span class="d-flex align-items-end"><span class="flex-1">Mail</span>  <span class="badge badge-pill bg-color-scheme-contrast">23</span></span>
+        <div class="btn-list dropdown d-none d-md-flex mr-4 mr-0-rtl ml-4-rtl"><a href="javascript:void(0);" class="btn btn-primary dropdown-toggle ripple" data-toggle="dropdown"><i class="feather feather-plus list-icon"></i> Yeni Bir</a>
+            <div class="dropdown-menu dropdown-left animated flipInY"><span class="dropdown-header">Yeni Bir ...</span>
+                <a class="dropdown-item" href="{{ route('fatura.create', ['type'=>FATURA_GELIR])}}">Gelir Faturası</a>
+                <a class="dropdown-item" href="{{ route('fatura.create', ['type' => FATURA_GIDER])}}">Gider Faturası</a>
+                <a class="dropdown-item" href="{{ route('islem.create', ['type' => ISLEM_ODEME])}}">Ödeme Yap</a>
+                <a class="dropdown-item" href="{{ route('islem.create', ['type' => ISLEM_TAHSILAT])}}">Tahsilat Al</a>
+                <div class="dropdown-divider">
+                </div>
+                <a class="dropdown-item" href="{{ route('profil.index')}}">
+                    <span class="d-flex align-items-center">
+                        <span class="flex-1">Profil Ayarları</span>
+                        <i class="feather feather-settings list-icon icon-muted"></i>
+                    </span>
                 </a>
-                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><span class="d-flex align-items-center"><span class="flex-1">Settings</span> <i class="feather feather-settings list-icon icon-muted"></i></span></a>
             </div>
         </div>
         <!-- /.btn-list -->
         <!-- User Image with Dropdown -->
         <ul class="nav navbar-nav">
-            <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle ripple" data-toggle="dropdown"><span class="avatar thumb-xs2"><img src="{{asset('assets/demo/users/user1.jpg')}}" class="rounded-circle" alt=""> <i class="feather feather-chevron-down list-icon"></i></span></a>
+            <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle ripple" data-toggle="dropdown"><span class="avatar thumb-xs2"><img src="{{asset(\App\User::getPhoto())}}" class="rounded-circle" alt=""> <i class="feather feather-chevron-down list-icon"></i></span></a>
                 <div
                     class="dropdown-menu dropdown-left dropdown-card dropdown-card-profile animated flipInY">
                     <div class="card">
-                        <header class="card-header d-flex mb-0"><a href="javascript:void(0);" class="col-md-4 text-center"><i class="feather feather-user-plus align-middle"></i> </a><a href="javascript:void(0);" class="col-md-4 text-center"><i class="feather feather-settings align-middle"></i> </a>
+                        <header class="card-header d-flex mb-0">
+                            <a href="{{ route('profil.index') }}" class="col-md-6 text-center">
+                                <i class="feather feather-settings align-middle">
+
+                                </i>
+                            </a>
                             <a
-                                href="javascript:void(0);" class="col-md-4 text-center"><i class="feather feather-power align-middle"></i>
+                                href="javascript:void(0);" class="col-md-6 text-center"><i class="feather feather-power align-middle"></i>
                             </a>
                         </header>
                         <ul class="list-unstyled card-body">
-                            <li><a href="#"><span><span class="align-middle">Manage Accounts</span></span></a>
-                            </li>
-                            <li><a href="#"><span><span class="align-middle">Change Password</span></span></a>
-                            </li>
-                            <li><a href="#"><span><span class="align-middle">Check Inbox</span></span></a>
-                            </li>
-                            <li><a href="#"><span><span class="align-middle">Sign Out</span></span></a>
-                            </li>
+                            <li><a href="{{ route('profil.index') }}"><span><span class="align-middle">Profil Ayarları</span></span></a></li>
+                            <li><a href="#"><span><span class="align-middle">Çıkış Yap</span></span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -89,7 +91,6 @@
         <!-- /.navbar-right -->
         <!-- Right Menu -->
 
-        @if(\App\Reminder::FaturaHatirlatici() != 0)
         <ul class="nav navbar-nav d-none d-lg-flex ml-2 ml-0-rtl">
             <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle ripple" data-toggle="dropdown"><i class="feather feather-hash list-icon"></i></a>
                 <div class="dropdown-menu dropdown-left dropdown-card animated flipInY">
@@ -97,6 +98,7 @@
                         <header class="card-header d-flex align-items-center mb-0"><a href="javascript:void(0);"><i class="feather feather-bell color-color-scheme" aria-hidden="true"></i></a>  <span class="heading-font-family flex-1 text-center fw-400">Bildirimler</span>
                         </header>
                         <ul class="card-body list-unstyled dropdown-list-group">
+                            @if(\App\Reminder::FaturaHatirlatici() != 0)
                                 @foreach(\App\Reminder::FaturaHatirlatici() as $k => $v)
                                     <li>
                                         <a href="{{ $v['uri'] }}" class="media">
@@ -106,6 +108,9 @@
                                         </a>
                                     </li>
                                 @endforeach
+                            @else
+                                <li><a href="" class="media"><span>İşlem Yok</span></a></li>
+                            @endif
                         </ul>
                         <!-- /.dropdown-list-group -->
                     </div>
@@ -115,8 +120,6 @@
             </li>
             <!-- /.dropdown -->
         </ul>
-
-    @endif
         <!-- /.navbar-right -->
     </nav>
     <!-- /.navbar -->
@@ -128,11 +131,11 @@
                 <div class="col-sm-12 text-center p-0 clearfix">
                     <div class="d-inline-block pos-relative mr-b-10">
                         <figure class="thumb-sm mr-b-0 user--online">
-                            <img src="{{asset('assets/demo/users/user1.jpg')}}" class="rounded-circle" alt="">
-                        </figure><a href="page-profile.html" class="text-muted side-user-link"><i class="feather feather-settings list-icon"></i></a>
+                            <img src="{{asset(\App\User::getPhoto())}}" class="rounded-circle" alt="">
+                        </figure><a href="{{ route('profil.index') }}" class="text-muted side-user-link"><i class="feather feather-settings list-icon"></i></a>
                     </div>
                     <!-- /.d-inline-block -->
-                    <div class="lh-14 mr-t-5"><a href="page-profile.html" class="hide-menu mt-3 mb-0 side-user-heading fw-500">{{ \Illuminate\Support\Facades\Auth::user()->name }}</a>
+                    <div class="lh-14 mr-t-5"><a href="{{ route('profil.index') }}" class="hide-menu mt-3 mb-0 side-user-heading fw-500">{{ \Illuminate\Support\Facades\Auth::user()->name }}</a>
                         <br><small class="hide-menu">Admin</small>
                     </div>
                 </div>
