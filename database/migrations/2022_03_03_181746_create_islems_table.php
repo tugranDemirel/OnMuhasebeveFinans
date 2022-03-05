@@ -22,7 +22,7 @@ class CreateIslemsTable extends Migration
             $table->date('tarih');
             $table->integer('hesap');
             $table->integer('odemeSekli');
-            $table->text('aciklama');
+            $table->text('aciklama')->nullable();
             $table->timestamps();
         });
     }
