@@ -53,20 +53,20 @@
                             @csrf
                             <div class="form-group row">
                                 <div class="col-md-4">
-                                    <label class=" col-form-label" for="l0">Müşteri Seçiniz</label>
-                                    <select name="musteriId" class="m-b-10 form-control " data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
-                                        <option value="">Müşteri Seçiniz</option>
-                                        @foreach(\App\Musteriler::all() as $k => $v)
-                                            <option @if($v['id'] == $data[0]['musteriId']) selected @endif value="{{$v['id']}}"> {{ \App\Musteriler::getPublicName($v['id']) }}</option>
+                                    <label class=" col-form-label" for="l0">Fatura Seçiniz</label>
+                                    <select name="faturaId" class="m-b-10 form-control fatura" data-placeholder="Fatura Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
+                                        <option value="">Fatura Seçiniz</option>
+                                        @foreach(\App\Fatura::getList(FATURA_GIDER) as $k => $v)
+                                            <option data-musteriId="{{ $v['musteriId'] }}" @if($v['id'] == $data[0]['faturaId']) selected @endif value="{{$v['id']}}"> {{ $v['faturaNo'] }} / {{ \App\Musteriler::getPublicName($v['musteriId']) }} / {{ \App\Fatura::getTotal($v['id']) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label class=" col-form-label" for="l0">Fatura Seçiniz</label>
-                                    <select name="faturaId" class="m-b-10 form-control " data-placeholder="Fatura Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
-                                        <option value="">Fatura Seçiniz</option>
-                                        @foreach(\App\Fatura::getList(FATURA_GIDER) as $k => $v)
-                                            <option @if($v['id'] == $data[0]['faturaId']) selected @endif value="{{$v['id']}}"> {{ $v['faturaNo'] }} / {{ \App\Musteriler::getPublicName($v['musteriId']) }} / {{ \App\Fatura::getTotal($v['id']) }}</option>
+                                    <label class=" col-form-label" for="l0">Müşteri Seçiniz</label>
+                                    <select name="musteriId" class="m-b-10 form-control musteri" data-placeholder="Müşteri Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
+                                        <option value="">Müşteri Seçiniz</option>
+                                        @foreach(\App\Musteriler::all() as $k => $v)
+                                            <option @if($v['id'] == $data[0]['musteriId']) selected @endif value="{{$v['id']}}"> {{ \App\Musteriler::getPublicName($v['id']) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -131,4 +131,13 @@
 @section('js')
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.fatura').change(function (){
+                // Seciilen faturaya gore musteriyi direkt getirme
+                var musteriId = $(this).find(':selected').attr('data-musteriId');
+                $('.musteri').val(musteriId).trigger('change');
+            });
+        });
+    </script>
 @endsection
