@@ -20,6 +20,12 @@
                 <li><a href="{{ route('fatura.create', ['type'=>1]) }} ">Yeni Gider Faturası Ekle</a></li>
             </ul>
         </li>
+        <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-user"></i> <span class="hide-menu">Ürünler</span></a>
+            <ul class="list-unstyled sub-menu">
+                <li><a href=" {{ route('urun.index') }} ">Ürün Listesi</a></li>
+                <li><a href=" {{ route('urun.create') }} ">Yeni Ürün Ekle</a></li>
+            </ul>
+        </li>
         <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-user"></i> <span class="hide-menu">Banka</span></a>
             <ul class="list-unstyled sub-menu">
                 <li><a href=" {{ route('banka.index') }} ">Banka Listesi</a></li>
