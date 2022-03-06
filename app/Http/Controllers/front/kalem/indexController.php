@@ -5,6 +5,7 @@ namespace App\Http\Controllers\front\kalem;
 use App\Helper\fileUpload;
 use App\Http\Controllers\Controller;
 use App\Kalem;
+use App\Logger;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -28,6 +29,7 @@ class indexController extends Controller
 
         if ($create)
         {
+            Logger::Insert($all['ad'].' Kalemi eklendi.', 'Kalem');
             return redirect()->back()->with('status', 'Başarılı bir şekilde ekleme işlemi gerçekleştirildi.');
         }
         else
@@ -59,7 +61,10 @@ class indexController extends Controller
             $update = Kalem::where('id', $id)->update($all);
 
             if ($update)
+            {
+                Logger::Insert($data[0]['ad'].' kalemi düzenlendi.', 'Kalem');
                 return redirect()->back()->with('status', 'Güncelleme işlemi başarılı bir şekilde gerçekleştirildi.');
+            }
             else
                 return redirect()->back()->with('status', 'Güncelleme işlemi gerçekleştirilemedi.');
         }
@@ -74,6 +79,7 @@ class indexController extends Controller
         {
             $data =  Kalem::where('id', $id)->get();
             Kalem::where('id', $id)->delete();
+            Logger::Insert($data[0]['ad'].' kalemi silindi.', 'Kalem');
             return redirect()->back();
         }
         else

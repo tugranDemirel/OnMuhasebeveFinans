@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\front\musteriler;
 
+use App\FaturaIslem;
 use App\Helper\fileUpload;
 use App\Http\Controllers\Controller;
+use App\Islem;
+use App\Logger;
 use App\Musteriler;
 use App\Rapor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 
 class indexController extends Controller
@@ -31,6 +36,7 @@ class indexController extends Controller
 
         if ($create)
         {
+            Logger::Insert($all[0]['ad'].' '.$all[0]['ad'].' müşterisi eklendi.','Müşteri');
             return redirect()->back()->with('status', 'Başarılı bir şekilde ekleme işlemi gerçekleştirildi.');
         }
         else
@@ -63,7 +69,10 @@ class indexController extends Controller
             $update = Musteriler::where('id', $id)->update($all);
 
             if ($update)
+            {
+                Logger::Insert(Musteriler::getPublicName($data[0][$id]).' müşterisi düzenlendi.','Müşteri');
                 return redirect()->back()->with('status', 'Güncelleme işlemi başarılı bir şekilde gerçekleştirildi.');
+            }
             else
                 return redirect()->back()->with('status', 'Güncelleme işlemi gerçekleştirilemedi.');
         }
@@ -77,6 +86,7 @@ class indexController extends Controller
         if ($c !=0)
         {
             $data =  Musteriler::where('id', $id)->get();
+            Logger::Insert(Musteriler::getPublicName($data[0]['id']).' müşteri silindi.', 'Müşteri');
             fileUpload::directoryDelete($data[0]['photo']);
             fileUpload::directoryDelete($data[0]['photo']);
             Musteriler::where('id', $id)->delete();
@@ -88,7 +98,30 @@ class indexController extends Controller
 
     public function extre($id)
     {
+        $c = Musteriler::where('id', $id)->count();
 
+        if ($c !=0)
+        {
+            $data = Musteriler::where('id', $id)->get();
+            $faturaTablo = FaturaIslem::leftJoin('faturas', 'fatura_islems.faturaId', '=', 'faturas.id')
+                                        ->where('faturas.musteriId', $id)
+                                        ->groupBy('faturas.id')
+                                        ->orderBy('faturas.faturaTarih', 'DESC')
+                                        ->select(['faturas.id as id','faturas.faturaTipi as type' , DB::raw('"fatura" as uType'), DB::raw('SUM(genelToplam) as fiyat'), 'faturas.faturaTarih as tarih']);
+
+            $islemTablo = Islem::where('musteriId', $id)
+                                ->orderBy('tarih', 'DESC')
+                                ->select(['id', 'tip as type', DB::raw('"islem" as uType'), 'fiyat', 'tarih']);
+            $viewData = $faturaTablo->union($islemTablo)
+                ->orderBy('tarih', 'DESC')->get();
+                $arr = [
+                    'data'=>$data,
+                    'viewData'=>$viewData
+                ];
+            return view('front.musteriler.extre', $arr);
+        }
+        else
+            return abort(404);
     }
 
     public function data(Request $request)
@@ -115,10 +148,13 @@ class indexController extends Controller
                 else
                     return $bakiye;
             })
+            ->addColumn('extre', function ($table){
+                return '<a href="'.route('musteriler.extre', ['id'=>$table]).'">Extre</a>';
+            })
             ->editColumn('musteriTipi', function ($table){
                 if ($table->musteriTipi == 0) { return 'Bireysel';} else { return 'Kurumsal';}
             })
-            ->rawColumns(['edit', 'delete', 'bakiye'])
+            ->rawColumns(['edit', 'delete', 'bakiye', 'extre'])
             ->make(true);
         return $data;
     }

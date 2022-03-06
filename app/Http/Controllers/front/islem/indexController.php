@@ -5,6 +5,7 @@ namespace App\Http\Controllers\front\islem;
 use App\Fatura;
 use App\Http\Controllers\Controller;
 use App\Islem;
+use App\Logger;
 use App\Musteriler;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -35,7 +36,13 @@ class indexController extends Controller
         $all['tip'] = $type;
         $create = Islem::create($all);
         if ($create)
+        {
+            if ($type == ISLEM_ODEME)
+                Logger::Insert('Ödeme yapıldı', 'İşlem');
+            else
+                Logger::Insert('Tahsilat yapıldı', 'İşlem');
             return redirect()->back()->with('status', 'Başarılı bir şekilde ödeme işlemi alındı');
+        }
         else
             return redirect()->back()->with('statusDanger', 'Ödeme işlemi gerçekleştirilemedi');
     }
@@ -66,8 +73,15 @@ class indexController extends Controller
         {
             $all = $request->except('_token');
             $update = Islem::where('id', $id)->update($all);
+            $data = Islem::where('id', $id)->get();
             if ($update != 0)
+            {
+                if ($data[0]['tip'] == ISLEM_ODEME)
+                    Logger::Insert('Ödeme düzenlendi.', 'İşlem');
+                else
+                    Logger::Insert('Tahsilat düzenlendi.', 'İşlem');
                 return redirect()->back()->with('status', 'Güncelleme işlemi başarılı bir şekilde gerçekleştirildi');
+            }
             else
                 return redirect()->back()->with('statusDanger', 'Böyle bir kayıt bulunamadı');
         }
@@ -80,9 +94,16 @@ class indexController extends Controller
         $c = Islem::where('id', $id)->count();
         if ($c != 0)
         {
+            $data = Islem::where('id',$id)->get();
             $w = Islem::where('id', $id)->delete();
             if ($w)
+            {
+                if ($data[0]['tip'] == ISLEM_ODEME)
+                    Logger::Insert('Ödeme silindi', 'İşlem');
+                else
+                    Logger::Insert('Tahsilat silindi.', 'İşlem');
                 return redirect()->back()->with('status', 'Başarılı bir şekilde silme işlemi gerçekleştirildi.');
+            }
             else
                 return redirect()->back()->with('statusDanger', 'İşlem gerçekleştirilemedi.');
         }

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\front\fatura;
 use App\Fatura;
 use App\FaturaIslem;
 use App\Http\Controllers\Controller;
+use App\Logger;
 use App\Musteriler;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 
 class indexController extends Controller
@@ -43,6 +45,10 @@ class indexController extends Controller
                 $create = Fatura::create($all);
                 if ($create)
                 {
+                    if ($type == FATURA_GELIR)
+                        Logger::Insert('Gelir faturası eklendi.', 'Fatura');
+                    else
+                        Logger::Insert('Gider faturası eklendi', 'Fatura');
                     if (count($islem)!=0)
                     {
                         foreach ($islem as $key => $value) {
@@ -105,6 +111,12 @@ class indexController extends Controller
                 $islem = $all['islem'];
                 unset($all['islem']);
 
+                $data = Fatura::where('id', $id)->get();
+
+                if ($data[0]['faturaTipi'] == FATURA_GELIR)
+                    Logger::Insert( $data[0]['faturaNo'].' gelir faturası düzenlendi.', 'Fatura');
+                else
+                    Logger::Insert( $data[0]['faturaNo'].' faturası silindi.', 'Fatura');
                 if (count($islem)!=0)
                 {
                     FaturaIslem::where('faturaId', $id)->delete();
@@ -132,6 +144,19 @@ class indexController extends Controller
         }
         else
             return redirect('/');
+    }
+
+    public function delete($id)
+    {
+        $c = Fatura::where('id', $id)->count();
+        if ($c != 0)
+        {
+            $data = Fatura::where('id', $id)->get();
+            Fatura::where('id', $id)->delete();
+            FaturaIslem::where('faturaId', $id)->delete();
+            Logger::Insert($data[0]['faturaNo'].' silindi.', 'Fatura');
+            return redirect()->back();
+        }
     }
 
     public function data(Request $request)

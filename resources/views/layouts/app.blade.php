@@ -82,7 +82,10 @@
                         </header>
                         <ul class="list-unstyled card-body">
                             <li><a href="{{ route('profil.index') }}"><span><span class="align-middle">Profil Ayarları</span></span></a></li>
-                            <li><a href="#"><span><span class="align-middle">Çıkış Yap</span></span></a></li>
+                            <li><a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><span><span class="align-middle">Çıkış Yap</span></span></a></li>
+                            <form action="{{route('logout')}}" method="post" id="logout-form">
+                                @csrf
+                            </form>
                         </ul>
                     </div>
                 </div>

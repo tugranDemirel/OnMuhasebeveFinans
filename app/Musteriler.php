@@ -21,4 +21,16 @@ class Musteriler extends Model
             return $data[0]['firmaAdi'];
         }
     }
+    static function getPhoto($id)
+    {
+        $data = Musteriler::where('id', $id)->get();
+        if ($data[0]['photo'] != '')
+        {
+            return $data[0]['photo'];
+        }
+        else
+        {
+            return 'assets/demo/users/user1.jpg';
+        }
+    }
 }

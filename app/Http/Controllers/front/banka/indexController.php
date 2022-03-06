@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front\banka;
 
 use App\Banka;
 use App\Http\Controllers\Controller;
+use App\Logger;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -28,10 +29,14 @@ class indexController extends Controller
 
         if ($create)
         {
+            Logger::Insert('Yeni ekleme yapıldı', 'Banka');
             return redirect()->back()->with('status', 'Başarılı bir şekilde ekleme işlemi gerçekleştirildi.');
         }
         else
+        {
+            Logger::Insert('Yeni ekleme yapılamadı', 'Banka');
             return redirect()->back()->with('statusDanger', 'Ekleme işlemi gerçekleştirilemedi.');
+        }
 
     }
 
@@ -58,20 +63,31 @@ class indexController extends Controller
             if (!$bankName)
             {
                 $data =  Banka::where('id', $id)->get();
-
                 $update = Banka::where('id', $id)->update($all);
 
                 if ($update)
+                {
+                    Logger::Insert($data[0]['ad'].' düzenlendi.','Banka');
                     return redirect()->back()->with('status', 'Güncelleme işlemi başarılı bir şekilde gerçekleştirildi.');
+                }
                 else
+                {
+                    Logger::Insert($data[0]['ad'].' düzenlenemedi.','Banka');
+                    return redirect()->back()->with('statusDanger', 'Güncelleme işlemi gerçekleştirilemedi.');
+                }
                     return redirect()->back()->with('statusDanger', 'Güncelleme işlemi gerçekleştirilemedi.');
             }
             else
+            {
+                Logger::Insert($bankName.' isminde başka bir banka mevcut.','Banka');
                 return redirect()->back()->with('statusDanger', 'Aynı isime sahip banka adı mevcut.');
+            }
 
         }
         else
+        {
             return redirect('/');
+        }
     }
 
     public function delete($id)
@@ -81,6 +97,7 @@ class indexController extends Controller
         {
             $data =  Banka::where('id', $id)->get();
             Banka::where('id', $id)->delete();
+            Logger::Insert($data[0]['ad'].' silindi.','Banka');
             return redirect()->back();
         }
         else
