@@ -5,6 +5,7 @@ namespace App\Http\Controllers\front\musteriler;
 use App\Helper\fileUpload;
 use App\Http\Controllers\Controller;
 use App\Musteriler;
+use App\Rapor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -85,6 +86,11 @@ class indexController extends Controller
             return redirect('/');
     }
 
+    public function extre($id)
+    {
+
+    }
+
     public function data(Request $request)
     {
         $table = Musteriler::query();
@@ -98,10 +104,21 @@ class indexController extends Controller
             ->addColumn('publicname', function ($table){
                 return Musteriler::getPublicName($table->id);
             })
+            ->addColumn('bakiye', function ($table){
+                $bakiye = Rapor::getMusteriBakiye($table->id);
+                if ($bakiye < 0)
+                {
+                    return '<span style="color: red;"> -'.$bakiye.' TL</span>';
+                }
+                elseif($bakiye > 0)
+                    return '<span style="color: green;"> +'.$bakiye.' TL</span>';
+                else
+                    return $bakiye;
+            })
             ->editColumn('musteriTipi', function ($table){
                 if ($table->musteriTipi == 0) { return 'Bireysel';} else { return 'Kurumsal';}
             })
-            ->rawColumns(['edit', 'delete'])
+            ->rawColumns(['edit', 'delete', 'bakiye'])
             ->make(true);
         return $data;
     }

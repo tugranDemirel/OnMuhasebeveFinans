@@ -37,6 +37,7 @@ Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
         Route::post('/olustur', 'indexController@store')->name('store');
         Route::get('/duzenle/{id}', 'indexController@edit')->name('edit');
         Route::post('/duzenle/{id}', 'indexController@update')->name('update');
+        Route::get('/extre/{id}', 'indexController@extre')->name('extre');
         Route::get('/sil/{id}', 'indexController@delete')->name('delete');
         Route::post('data', 'indexController@data')->name('data');
     });

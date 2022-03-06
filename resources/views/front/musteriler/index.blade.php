@@ -42,6 +42,7 @@
                             <tr>
                                 <th>Ad</th>
                                 <th>Müşteri Tipi</th>
+                                <th>Bakiye</th>
                                 <th>Düzenle</th>
                                 <th>Sil</th>
                             </tr>
@@ -95,6 +96,7 @@
                 columns: [
                     { data: 'publicname', name: 'publicname'},
                     { data: 'musteriTipi', name: 'musteriTipi'},
+                    { data: 'bakiye', name: 'bakiye', orderable: false, searchable: false },
                     { data: 'edit', name: 'edit', orderable: false, searchable: false },
                     { data: 'delete', name: 'delete', orderable: false, searchable: false }
 
