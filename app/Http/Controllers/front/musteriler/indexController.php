@@ -36,7 +36,7 @@ class indexController extends Controller
 
         if ($create)
         {
-            Logger::Insert($all[0]['ad'].' '.$all[0]['ad'].' müşterisi eklendi.','Müşteri');
+            Logger::Insert($all['ad'].' '.$all['soyad'].' müşterisi eklendi.','Müşteri');
             return redirect()->back()->with('status', 'Başarılı bir şekilde ekleme işlemi gerçekleştirildi.');
         }
         else
@@ -70,7 +70,7 @@ class indexController extends Controller
 
             if ($update)
             {
-                Logger::Insert(Musteriler::getPublicName($data[0][$id]).' müşterisi düzenlendi.','Müşteri');
+                Logger::Insert(Musteriler::getPublicName($id).' düzenlendi.','Müşteri');
                 return redirect()->back()->with('status', 'Güncelleme işlemi başarılı bir şekilde gerçekleştirildi.');
             }
             else

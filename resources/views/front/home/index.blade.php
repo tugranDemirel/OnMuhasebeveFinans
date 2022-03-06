@@ -111,104 +111,15 @@
                 <!-- /.widget-heading -->
                 <div class="widget-body">
                     <table class="widget-latest-transactions">
-                        <tr>
-                            <td class="thumb-xs2">
-                                <a href="#">
-                                    <img class="rounded-circle" src="assets/demo/users/user2.jpg">
-                                </a>
-                            </td>
-                            <td class="single-user-details"><a class="single-user-name" href="#">Gene Newman</a>  <small>on Sep 16, 2017</small>
-                            </td>
-                            <!-- /.single-user-details -->
-                            <td class="single-amount">IDR 250.875</td>
-                            <td class="single-status"><i class="material-icons fs-18 color-success">fiber_manual_record</i>  <span class="text-muted d-none d-sm-inline">confirmed</span>
-                            </td>
-                            <!-- /.single-status -->
-                        </tr>
-                        <tr>
-                            <td class="thumb-xs2">
-                                <a href="#">
-                                    <img class="rounded-circle" src="assets/demo/users/user3.jpg">
-                                </a>
-                            </td>
-                            <td class="single-user-details"><a href="#" class="single-user-name">Billy Black</a>  <small>on Aug 21, 2017</small>
-                            </td>
-                            <!-- /.single-user-details -->
-                            <td class="single-amount">IDR 875.250</td>
-                            <td class="single-status"><i class="material-icons fs-18 color-warning">fiber_manual_record</i>  <span class="text-muted d-none d-sm-inline">waiting payment</span>
-                            </td>
-                            <!-- /.single-status -->
-                        </tr>
-                        <tr>
-                            <td class="thumb-xs2">
-                                <a href="#">
-                                    <img class="rounded-circle" src="assets/demo/users/user5.jpg">
-                                </a>
-                            </td>
-                            <td class="single-user-details"><a href="#" class="single-user-name">Herbert Diaz</a>  <small>on Aug 13, 2017</small>
-                            </td>
-                            <!-- /.single-user-details -->
-                            <td class="single-amount">IDR 520.758</td>
-                            <td class="single-status"><i class="material-icons fs-18 color-success">fiber_manual_record</i>  <span class="text-muted d-none d-sm-inline">confirmed</span>
-                            </td>
-                            <!-- /.single-status -->
-                        </tr>
-                        <tr>
-                            <td class="thumb-xs2">
-                                <a href="#">
-                                    <img class="rounded-circle" src="assets/demo/users/user4.jpg">
-                                </a>
-                            </td>
-                            <td class="single-user-details"><a href="#" class="single-user-name">Sylvia Harvey</a>  <small>on Aug 8, 2017</small>
-                            </td>
-                            <!-- /.single-user-details -->
-                            <td class="single-amount">IDR 250.875</td>
-                            <td class="single-status"><i class="material-icons fs-18 color-danger">fiber_manual_record</i>  <span class="text-muted d-none d-sm-inline">payment expired</span>
-                            </td>
-                            <!-- /.single-status -->
-                        </tr>
-                        <tr>
-                            <td class="thumb-xs2">
-                                <a href="#">
-                                    <img class="rounded-circle" src="assets/demo/users/user6.jpg">
-                                </a>
-                            </td>
-                            <td class="single-user-details"><a href="#" class="single-user-name">Marsha Hoffman</a>  <small>on July 30, 2017</small>
-                            </td>
-                            <!-- /.single-user-details -->
-                            <td class="single-amount">IDR 875.250</td>
-                            <td class="single-status"><i class="material-icons fs-18 color-success">fiber_manual_record</i>  <span class="text-muted d-none d-sm-inline">confirmed</span>
-                            </td>
-                            <!-- /.single-status -->
-                        </tr>
-                        <tr>
-                            <td class="thumb-xs2">
-                                <a href="#">
-                                    <img class="rounded-circle" src="assets/demo/users/user7.jpg">
-                                </a>
-                            </td>
-                            <td class="single-user-details"><a href="#" class="single-user-name">Mason Grant</a>  <small>on July 16, 2017</small>
-                            </td>
-                            <!-- /.single-user-details -->
-                            <td class="single-amount">IDR 250.875</td>
-                            <td class="single-status"><i class="material-icons fs-18 color-success">fiber_manual_record</i>  <span class="text-muted d-none d-sm-inline">confirmed</span>
-                            </td>
-                            <!-- /.single-status -->
-                        </tr>
-                        <tr>
-                            <td class="thumb-xs2">
-                                <a href="#">
-                                    <img class="rounded-circle" src="assets/demo/users/user8.jpg">
-                                </a>
-                            </td>
-                            <td class="single-user-details"><a href="#" class="single-user-name">Shelly Sullivan</a>  <small>on July 13, 2017</small>
-                            </td>
-                            <!-- /.single-user-details -->
-                            <td class="single-amount">IDR 875.250</td>
-                            <td class="single-status"><i class="material-icons fs-18 color-warning">fiber_manual_record</i>  <span class="text-muted d-none d-sm-inline">waiting payment</span>
-                            </td>
-                            <!-- /.single-status -->
-                        </tr>
+                        @foreach($logger as $k => $v)
+                            <tr>
+                                <td class="single-user-details">
+                                    <a class="single-user-name" href="#">{{ $v['text'] }}</a>
+                                    <small>{{ $v['created_at'] }}</small>
+                                </td>
+                                <!-- /.single-status -->
+                            </tr>
+                        @endforeach
                         <!-- /.single -->
                     </table>
                     <!-- /.widget-latest-transactions -->
