@@ -59,6 +59,14 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <td>
+                                    <select class="form-control urun" name="islem[{{ $k }}][urunId]">
+                                        <option value="0"> Ürün Seçiniz </option>
+                                        @foreach(\App\Urun::all() as $key => $value)
+                                            <option @if($value['id'] == $v['urunId']) selected @endif data-fiyat="{{ $v['alisFiyati']}} " value="{{ $value['id'] }}"> {{$value['urunAdi']}}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
                                 <div class="col-md-4">
                                     <label class=" col-form-label" for="l0">Fatura Tarih</label>
                                     <input class="form-control"  required name="faturaTarih"  value="{{ $data[0]['faturaTarih'] }}" type="date">
@@ -167,6 +175,13 @@
             @foreach(\App\Kalem::getList(1) as $key => $value)
                     newRow += '<option data-k="{{ $value['kdv']}} " value="{{ $value['id'] }}"> {{$value['ad']}}</option>';
             @endforeach
+                newRow +=
+                '<tr class="islem_field">' +
+                '<td><select class="form-control urun" name="islem['+i+'][urunId]">'+
+                '<option value="0"> Ürün Seçiniz </option>';
+            @foreach(\App\Kalem::getList(0) as $key => $value)
+                newRow += '<option data-fiyat="{{ $value['alisFiyati']}} " value="{{ $value['id'] }}"> {{$value['urunAdi']}}</option>';
+            @endforeach
 
             newRow += '</select></td>' +
                 '<td><input type="text" class="form-control" id="gun_adet" name="islem['+i+'][gun_adet]"></td>'+
@@ -188,6 +203,11 @@
            $(this).closest('.islem_field').find('#kdv').val(kdv);
         });
 
+        // Urun getirme
+        $('body').on('change', '.urun', function (){
+            var fiyat = $(this).find(':selected').data('fiyat');
+            $(this).closest('.islem_field').find('#tutar').val(fiyat);
+        });
     //    remove input row
         $('body').on('click', '#removeButton', function (){
            $(this).closest('.islem_field').remove();

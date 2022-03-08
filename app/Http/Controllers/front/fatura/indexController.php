@@ -55,6 +55,7 @@ class indexController extends Controller
                             $islemArray = [
                                 'faturaId'=> $create->id,
                                 'kalemId' => $value['kalemId'],
+                                'urunId' => $value['urunId'],
                                 'miktar' => $value['gun_adet'],
                                 'fiyat' => $value['tutar'],
                                 'kdv' => $value['kdv'],
@@ -124,6 +125,7 @@ class indexController extends Controller
                         $islemArray = [
                             'faturaId' => $id,
                             'kalemId' => $value['kalemId'],
+                            'urunId' => $value['urunId'],
                             'miktar' => $value['gun_adet'],
                             'fiyat' => $value['tutar'],
                             'kdv' => $value['kdv'],

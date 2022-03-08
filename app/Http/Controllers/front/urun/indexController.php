@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\front\urun;
 
+use App\FaturaIslem;
 use App\Http\Controllers\Controller;
 use App\Logger;
 use App\Urun;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Table;
 use Yajra\DataTables\DataTables;
 
 class indexController extends Controller
@@ -93,6 +95,17 @@ class indexController extends Controller
         $data = DataTables::of($table)
             ->addColumn('edit', function ($table){
                 return '<a href="'.route('urun.edit', ['id'=>$table]).'">Düzenle</a>';
+            })
+            ->addColumn('stok', function ($table){
+                $girdi = FaturaIslem::leftJoin('faturas', 'fatura_islems.faturaId', 'faturas.id')
+                                        ->where('fatura_islems.urunId', $table->id)
+                                        ->where('faturas.faturaTipi', FATURA_GIDER)
+                                        ->sum('fatura_islems.miktar');
+                $cikti = FaturaIslem::leftJoin('faturas', 'fatura_islems.faturaId', 'faturas.id')
+                                        ->where('fatura_islems.urunId', $table->id)
+                                        ->where('faturas.faturaTipi', FATURA_GELIR)
+                                        ->sum('fatura_islems.miktar');
+                return ($girdi - $cikti);
             })
             ->addColumn('delete', function ($table){
                 return '<a href="'.route('urun.delete', ['id'=>$table]).'">Delete</a>';

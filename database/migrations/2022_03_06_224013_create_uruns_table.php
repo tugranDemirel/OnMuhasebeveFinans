@@ -16,6 +16,9 @@ class CreateUrunsTable extends Migration
         Schema::create('uruns', function (Blueprint $table) {
             $table->id();
             $table->string('urunAdi');
+            $table->double('alisFiyati');
+            $table->double('satisFiyati');
+            $table->integer('kalemId');
             $table->timestamps();
         });
     }

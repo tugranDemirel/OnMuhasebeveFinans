@@ -2,6 +2,9 @@
 @section('title')
 @endsection
 @section('css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/css/multi-select.min.css" rel="stylesheet" type="text/css">
 @endsection
 @section('content')
 
@@ -46,10 +49,29 @@
                                     <label class=" col-form-label" for="l0">Ürün Adı</label>
                                     <input class="form-control"  required name="urunAdi"  type="text">
                                 </div>
-
+                                <div class="col-md-12">
+                                    <label class=" col-form-label" for="l0">Kalem Seçiniz</label>
+                                    <select name="kalemId" class="m-b-10 form-control select2-hidden-accessible" data-placeholder="Kalem Seçiniz" data-toggle="select2" tabindex="-1" aria-hidden="true">
+                                        <option value="">Kalem Seçiniz</option>
+                                        @foreach(\App\Kalem::all() as $k => $v)
+                                            <option value="{{$v['id']}}"> {{ $v['ad'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class=" col-form-label" for="l0">Alış Fiyatı</label>
+                                    <input class="form-control"  required name="alisFiyati"  type="text">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class=" col-form-label" for="l0">Satış Fiyatı</label>
+                                    <input class="form-control"  required name="satisFiyati"  type="text">
+                                </div>
+                            </div>
                             <div class="form-actions">
                                 <div class="form-group row">
-                                    <div class="col-md-12 ml-md-auto btn-list">
+                                    <div class="col-md-6 ml-md-auto btn-list">
                                         <button class="btn btn-primary btn-rounded" type="submit">Kaydet</button>
                                     </div>
                                 </div>
@@ -65,4 +87,8 @@
         <!-- /.row -->
     </div>
 
+@endsection
+@section('js')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 @endsection

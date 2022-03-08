@@ -17,9 +17,10 @@ class CreateFaturaIslemsTable extends Migration
             $table->id();
             $table->integer('faturaId');
             $table->integer('kalemId');
+            $table->integer('urunId');
             $table->integer('miktar');
             $table->double('fiyat');
-            $table->integer('kdv');
+            $table->integer('kdv')->default(0);
             $table->double('araToplam');
             $table->double('kdvToplam');
             $table->double('genelToplam');

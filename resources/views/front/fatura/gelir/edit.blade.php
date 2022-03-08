@@ -72,6 +72,7 @@
                                             <thead>
                                             <tr>
                                                 <th>Kalem</th>
+                                                <th>Ürün</th>
                                                 <th>Adet/Gün</th>
                                                 <th>Tutar</th>
                                                 <th>Toplam Tutar</th>
@@ -90,6 +91,14 @@
                                                             <option value="0"> Kalem Seçiniz </option>
                                                             @foreach(\App\Kalem::getList(0) as $key => $value)
                                                                 <option @if($value['id'] == $v['kalemId']) selected @endif data-k="{{ $v['kdv']}} " value="{{ $value['id'] }}"> {{$value['ad']}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control urun" name="islem[{{ $k }}][urunId]">
+                                                            <option value="0"> Ürün Seçiniz </option>
+                                                            @foreach(\App\Urun::all() as $key => $value)
+                                                                <option @if($value['id'] == $v['urunId']) selected @endif data-fiyat="{{ $v['satisFiyati']}} " value="{{ $value['id'] }}"> {{$value['urunAdi']}}</option>
                                                             @endforeach
                                                         </select>
                                                     </td>
@@ -167,6 +176,13 @@
             @foreach(\App\Kalem::getList(0) as $key => $value)
                     newRow += '<option data-k="{{ $value['kdv']}} " value="{{ $value['id'] }}"> {{$value['ad']}}</option>';
             @endforeach
+             newRow +=
+                '<tr class="islem_field">' +
+                '<td><select class="form-control urun" name="islem['+i+'][urunId]">'+
+                '<option value="0"> Ürün Seçiniz </option>';
+            @foreach(\App\Kalem::getList(0) as $key => $value)
+                    newRow += '<option data-fiyat="{{ $value['satisFiyati']}} " value="{{ $value['id'] }}"> {{$value['urunAdi']}}</option>';
+            @endforeach
 
             newRow += '</select></td>' +
                 '<td><input type="text" class="form-control" id="gun_adet" name="islem['+i+'][gun_adet]"></td>'+
@@ -180,6 +196,12 @@
                 '</tr>';
             $('#faturaData').append(newRow);
             i++;
+        });
+
+        // Urun getirme
+        $('body').on('change', '.urun', function (){
+            var fiyat = $(this).find(':selected').data('fiyat');
+            $(this).closest('.islem_field').find('#tutar').val(fiyat);
         });
 
         // KDV getirme

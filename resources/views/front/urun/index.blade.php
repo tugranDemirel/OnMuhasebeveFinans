@@ -41,6 +41,9 @@
                             <thead>
                             <tr>
                                 <th>Ürün Adı</th>
+                                <th>Alış Fiyatı</th>
+                                <th>Satış Fiyatı</th>
+                                <th>Stok</th>
                                 <th>Düzenle</th>
                                 <th>Sil</th>
                             </tr>
@@ -93,6 +96,9 @@
                 },
                 columns: [
                     { data: 'urunAdi', name: 'urunAdi'},
+                    { data: 'alisFiyati', name: 'alisFiyati'},
+                    { data: 'satisFiyati', name: 'satisFiyati'},
+                    { data: 'stok', name: 'stok'},
                     { data: 'edit', name: 'edit', orderable: false, searchable: false },
                     { data: 'delete', name: 'delete', orderable: false, searchable: false }
 

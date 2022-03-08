@@ -80,6 +80,7 @@
                                             <thead>
                                             <tr>
                                                 <th>Kalem</th>
+                                                <th>Ürün</th>
                                                 <th>Adet/Gün</th>
                                                 <th>Tutar</th>
                                                 <th>Toplam Tutar</th>
@@ -151,6 +152,14 @@
                 newRow += '<option data-k="{{ $v['kdv']}} " value="{{ $v['id'] }}"> {{$v['ad']}}</option>';
             @endforeach
 
+                newRow +=
+                '<tr class="islem_field">' +
+                '<td><select class="form-control urun" name="islem['+i+'][urunId]">'+
+                '<option value="0"> Ürün Seçiniz </option>';
+            @foreach(\App\Urun::all() as $k => $v)
+                newRow += '<option data-fiyat="{{ $v['alisFiyati']}} " value="{{ $v['id'] }}"> {{$v['urunAdi']}}</option>';
+            @endforeach
+
                 newRow += '</select></td>' +
                 '<td><input type="text" class="form-control" id="gun_adet" name="islem['+i+'][gun_adet]"></td>'+
                 '<td><input type="text" class="form-control" id="tutar" name="islem['+i+'][tutar]"></td>'+
@@ -171,11 +180,19 @@
             $(this).closest('.islem_field').find('#kdv').val(kdv);
         });
 
+        // Urun getirme
+        $('body').on('change', '.urun', function (){
+            var fiyat = $(this).find(':selected').data('fiyat');
+            $(this).closest('.islem_field').find('#tutar').val(fiyat);
+        });
+
         //    remove input row
         $('body').on('click', '#removeButton', function (){
             $(this).closest('.islem_field').remove();
             calc();
         });
+
+
 
         // faturaData icindeki inputlarda bir degisiklik olursa...
         $('body').on('change', '#faturaData input', function (){
