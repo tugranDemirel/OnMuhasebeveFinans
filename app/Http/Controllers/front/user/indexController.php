@@ -14,11 +14,6 @@ class indexController extends Controller
 {
     //
 
-    public function __construct()
-    {
-        dd('asdasd');
-    }
-
     public function index()
     {
         return view('front.user.index');

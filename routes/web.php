@@ -30,7 +30,7 @@ Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
     });
 
 //    prefix adres satirinda gozukecek olan url i belirtir. www.tugrandemirel.com/musteriler gibi
-    Route::group(['namespace'=>'musteriler', 'as'=>'musteriler.', 'prefix'=>'musteriler'], function (){
+    Route::group(['namespace'=>'musteriler', 'as'=>'musteriler.', 'prefix'=>'musteriler', 'middleware'=>['PermissionControl']], function (){
 
         Route::get('/', 'indexController@index')->name('index');
         Route::get('/olustur', 'indexController@create')->name('create');
@@ -43,7 +43,7 @@ Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
     });
 
 //    prefix adres satirinda gozukecek olan url i belirtir. www.tugrandemirel.com/musteriler gibi
-    Route::group(['namespace'=>'kalem', 'as'=>'kalem.', 'prefix'=>'kalem'], function (){
+    Route::group(['namespace'=>'kalem', 'as'=>'kalem.', 'prefix'=>'kalem', 'middleware'=>['PermissionControl']], function (){
 
         Route::get('/', 'indexController@index')->name('index');
         Route::get('/olustur', 'indexController@create')->name('create');
@@ -55,7 +55,7 @@ Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
     });
 
 //    prefix adres satirinda gozukecek olan url i belirtir. www.tugrandemirel.com/musteriler gibi
-    Route::group(['namespace'=>'fatura', 'as'=>'fatura.', 'prefix'=>'fatura'], function (){
+    Route::group(['namespace'=>'fatura', 'as'=>'fatura.', 'prefix'=>'fatura', 'middleware'=>['PermissionControl']], function (){
         Route::get('/', 'indexController@index')->name('index');
         Route::get('/olustur/{type}', 'indexController@create')->name('create');
         Route::post('/olustur/{type}', 'indexController@store')->name('store'); // 0 gelir faturası 1 gelir faturası
@@ -66,7 +66,7 @@ Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
     });
 
 //    prefix adres satirinda gozukecek olan url i belirtir. www.tugrandemirel.com/musteriler gibi
-    Route::group(['namespace'=>'banka', 'as'=>'banka.', 'prefix'=>'banka'], function (){
+    Route::group(['namespace'=>'banka', 'as'=>'banka.', 'prefix'=>'banka', 'middleware'=>['PermissionControl']], function (){
 
         Route::get('/', 'indexController@index')->name('index');
         Route::get('/olustur', 'indexController@create')->name('create');
@@ -78,7 +78,7 @@ Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
     });
 
 //    prefix adres satirinda gozukecek olan url i belirtir. www.tugrandemirel.com/musteriler gibi
-    Route::group(['namespace'=>'islem', 'as'=>'islem.', 'prefix'=>'islem'], function (){
+    Route::group(['namespace'=>'islem', 'as'=>'islem.', 'prefix'=>'islem', 'middleware'=>['PermissionControl']], function (){
         Route::get('/', 'indexController@index')->name('index');
         Route::get('/olustur/{type}', 'indexController@create')->name('create');
         Route::post('/olustur/{type}', 'indexController@store')->name('store'); // 0 gelir faturası 1 gelir faturası
@@ -89,7 +89,7 @@ Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
     });
 
 //    prefix adres satirinda gozukecek olan url i belirtir. www.tugrandemirel.com/musteriler gibi
-    Route::group(['namespace'=>'urun', 'as'=>'urun.', 'prefix'=>'urun'], function (){
+    Route::group(['namespace'=>'urun', 'as'=>'urun.', 'prefix'=>'urun', 'middleware'=>['PermissionControl']], function (){
 
         Route::get('/', 'indexController@index')->name('index');
         Route::get('/olustur', 'indexController@create')->name('create');
@@ -100,7 +100,7 @@ Route::group(['namespace' => 'front', 'middleware'=>'auth'], function (){
         Route::post('data', 'indexController@data')->name('data');
     });
 //    prefix adres satirinda gozukecek olan url i belirtir. www.tugrandemirel.com/musteriler gibi
-    Route::group(['namespace'=>'user', 'as'=>'user.', 'prefix'=>'user'], function (){
+    Route::group(['namespace'=>'user', 'as'=>'user.', 'prefix'=>'user', 'middleware'=>['PermissionControl']], function (){
 
         Route::get('/', 'indexController@index')->name('index');
         Route::get('/olustur', 'indexController@create')->name('create');
