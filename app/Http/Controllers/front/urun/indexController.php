@@ -82,7 +82,7 @@ class indexController extends Controller
         {
             $data =  Urun::where('id', $id)->get();
             Urun::where('id', $id)->delete();
-            Logger::Insert($data[0]['ad'].' ürünü silindi.', 'Kalem');
+            Logger::Insert($data[0]['ad'].' ürünü silindi.', 'User');
             return redirect()->back();
         }
         else

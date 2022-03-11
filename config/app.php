@@ -13,7 +13,15 @@ define('ODEME_NAKIT', 0);
 define('ODEME_BANKA', 1);
 
 return [
-
+    'permission' => [
+        'Musteriler',
+        'Kalem',
+        'Fatura',
+        'Ürün',
+        'Banka',
+        'İşlem',
+        'Kullanıcı'
+    ],
     /*
     |--------------------------------------------------------------------------
     | Application Name
