@@ -14,14 +14,15 @@ define('ODEME_BANKA', 1);
 
 return [
     'permission' => [
-        'musteriler',
-        'kalem',
-        'fatura',
-        'urun',
-        'banka',
-        'islem',
-        'user',
-        'rapor'
+        'musteriler', // 0
+        'kalem', // 1
+        'fatura', // 2
+        'urun', // 3
+        'banka', // 4
+        'islem', // 5
+        'user', // 6
+        'rapor', // 7
+        'teklif' // 8
     ],
     /*
     |--------------------------------------------------------------------------
